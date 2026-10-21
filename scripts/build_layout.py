@@ -42,10 +42,16 @@ FRAMING_VISIBLE = {"full": 1.0, "knee": 0.72, "waist": 0.48, "close": 0.28}
 
 POSITION_X = {"center": 0.0, "left": -1 / 6, "right": 1 / 6}
 
-# 开源仓库的硬性边界：只做 SFW 人像
+# 开源仓库的硬性边界：SFW 默认拦截
 BLOCKED = re.compile(
     r"\b(nude|naked|nsfw|topless|nipple|genital|explicit|porn|sexual|lingerie|underwear|see[- ]through)\b"
     r"|裸|色情|情色|露点|内衣|透视装|性感身体",
+    re.I,
+)
+
+# 允许私房与唯美曲线（Glamour）时的安全边界（仅拦截绝对露骨/全裸违规内容）
+BLOCKED_GLAMOUR = re.compile(
+    r"\b(nude|naked|topless|nipple|genital|explicit|porn|csam)\b|全裸|露点|生殖|露生殖器|色情交配",
     re.I,
 )
 
@@ -55,10 +61,11 @@ def load_poses():
         return {p["id"]: p for p in json.load(f)["poses"]}
 
 
-def check_safe(*texts):
+def check_safe(allow_glamour, *texts):
+    blocker = BLOCKED_GLAMOUR if allow_glamour else BLOCKED
     for t in texts:
-        if t and BLOCKED.search(t):
-            sys.exit("拒绝生成：本工具只支持 SFW 人像姿势与构图，输入中含有不允许的内容。")
+        if t and blocker.search(t):
+            sys.exit("拒绝生成：检测到超出安全边界的不允许内容。")
 
 
 def subject_bbox(pose, framing, position, W, H, max_w_frac=0.94):
@@ -114,7 +121,7 @@ def build(args):
     mp = args.width * args.height / 1e6
     if not 0.25 <= mp <= 4.2:
         sys.exit(f"总像素 {mp:.2f}M 超出 0.25M 到 4M 范围")
-    check_safe(args.subject, args.scene, args.style, args.extra, args.text)
+    check_safe(args.allow_glamour, args.subject, args.scene, args.style, args.extra, args.text)
 
     W, H = args.width, args.height
     plist = [poses[pid] for pid in pose_ids]
@@ -166,10 +173,11 @@ def build(args):
     if args.text:
         natural += f' The title text "{args.text}" is written at the top.'
 
+    neg = NEGATIVE if not args.allow_glamour else "worst quality, bad anatomy, extra limbs, extra fingers, watermark, jpeg artifact"
     params = {
         "width": W, "height": H, "steps": 50, "cfg": 3.0,
         "shift": 5.0, "sampler": "euler", "slg_skip_layer": 22,
-        "negative_prompt": NEGATIVE,
+        "negative_prompt": neg,
     }
     return pose, tension, layout, natural, params
 
@@ -189,6 +197,7 @@ def main():
     ap.add_argument("--light", default="soft natural light")
     ap.add_argument("--extra", default="", help="追加到人物描述的细节（表情、发型等）")
     ap.add_argument("--text", default="", help="可选：画面顶部渲染的标题文字")
+    ap.add_argument("--allow-glamour", action="store_true", help="启用私房/微性感模式（允许内衣、吊带睡裙、唯美泳装等描述，负向词自动放行）")
     ap.add_argument("--out", help="输出前缀，生成 .layout.json / .prompt.txt / .params.json")
     args = ap.parse_args()
 
