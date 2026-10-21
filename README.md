@@ -15,6 +15,16 @@
 
 ---
 
+## 🎬 工作流程动态演示 (Workflow Demo)
+
+> **演示：自然语言指令 ➔ Agent 命中解剖姿态 ➔ 自动换算单行 JSON ➔ Echidna 工作台直推 ➔ 8K超清写实成品**
+
+<p align="center">
+  <img src="references/demo_workflow.gif" width="100%" alt="moss-image-pose 工作流程演示" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+</p>
+
+---
+
 ## 🖼️ 效果实测展示 (Visual Showcase)
 
 本项目通过**双层物理锁定**（边界框钉住空间坐标 + 逐关节英文解剖描述锁定姿态），彻底解决文生图模型中常见的人物位移、肢体畸变与构图失控问题。
@@ -249,10 +259,14 @@ moss-image-pose/
 ├── README.md               # 完整的图文展示与使用说明
 ├── SKILL.md                # Agent 技能规范与系统级提示词规则
 ├── LICENSE                 # Apache 2.0 开源许可协议
+├── references/             # 演示动画与视觉素材
+│   ├── demo_workflow.gif   # 完整 4-Step 工作流高清动态演示 (GIF)
+│   └── demo_workflow.mp4   # 完整工作流程超清演示视频 (H.264 MP4)
 ├── poses/
 │   └── poses.json          # 46 款预置骨骼解剖级姿态数据库（含 Glamour 姿态族）
 ├── scripts/
-│   └── build_layout.py     # 布局换算、边界框生成与参数导出脚本
+│   ├── build_layout.py     # 布局换算、边界框生成与参数导出脚本
+│   └── generate_demo_gif.py# 自动绘制并生成高画质演示 GIF/MP4 脚本
 └── examples/               # 经典实测用例
     ├── sample_stand_hd.png        # 高清全身立姿实拍样张 (1088×1920)
     ├── sample_glamour_kneel.png   # 私房唯美跪趴实拍样张 (1088×1920)
