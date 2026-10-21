@@ -1,0 +1,10 @@
+{
+  "width": 832,
+  "height": 1248,
+  "steps": 50,
+  "cfg": 3.0,
+  "shift": 5.0,
+  "sampler": "euler",
+  "slg_skip_layer": 22,
+  "negative_prompt": "nsfw, worst quality, bad anatomy, extra limbs, extra fingers, watermark, jpeg artifact"
+}

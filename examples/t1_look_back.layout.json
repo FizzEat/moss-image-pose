@@ -1,0 +1,23 @@
+{
+  "summary": {
+    "meta": [
+      "photo"
+    ],
+    "canvas": "single",
+    "caption": "cinematic street photo, 35mm film grain, full-body shot, head to toe visible, a young East Asian woman in her twenties wearing a beige trench coat and white sneakers, shoulder-length black hair, standing with the back three-quarters to the camera, upper body twisted, looking back over the left shoulder toward the viewer, a rainy city street at dusk, neon signs reflected on wet pavement, empty space on the left side of the frame, slightly angled shot, 35mm lens, natural candid composition, cool blue dusk light mixed with warm neon"
+  },
+  "items": [
+    {
+      "label": "character",
+      "caption": "a young East Asian woman in her twenties wearing a beige trench coat and white sneakers, shoulder-length black hair, standing with the back three-quarters to the camera, upper body twisted, looking back over the left shoulder toward the viewer",
+      "bbox": [
+        -500,
+        -34,
+        575,
+        311
+      ]
+    }
+  ],
+  "bbox_coord_space": "abs_centralized",
+  "bbox_format": "yxyx"
+}
