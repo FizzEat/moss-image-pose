@@ -20,18 +20,20 @@
 本项目通过**双层物理锁定**（边界框钉住空间坐标 + 逐关节英文解剖描述锁定姿态），彻底解决文生图模型中常见的人物位移、肢体畸变与构图失控问题。
 
 <p align="center">
-  <img src="examples/sample_stand_hd.png" width="340" alt="高清全身立姿实测（T0 平衡站姿）" style="border-radius: 8px; margin-right: 15px;" />
-  <img src="examples/t1_look_back_clean.png" width="340" alt="回眸姿态与三分线构图实测（T1 回眸抓拍）" style="border-radius: 8px;" />
+  <img src="examples/sample_stand_hd.png" width="280" alt="高清全身立姿实测（T0 平衡站姿）" style="border-radius: 8px; margin: 6px;" />
+  <img src="examples/sample_glamour_kneel.png" width="280" alt="私房唯美曲线实测（glamour_bed_kneel 私房跪趴）" style="border-radius: 8px; margin: 6px;" />
+  <img src="examples/sample_street_chic.png" width="280" alt="街拍时尚微风抓拍实测（T1 露肩抓拍）" style="border-radius: 8px; margin: 6px;" />
   <br/>
-  <em>左：高清自然站姿立像实测（1088×1920，Euler 50 步，真实皮肤与发丝毛孔级细节）<br/>右：回眸 (stand_look_back) + 站右侧三分线 + 35mm 抓拍街拍（832×1248，Echidna 实测）</em>
+  <em>左：高清自然站姿（1088×1920，毛孔级真实皮肤） ｜ 中：私房跪趴唯美曲线（glamour_bed_kneel 实测） ｜ 右：街拍时尚露肩抓拍（35mm 真实微风动态）</em>
 </p>
 
 ### 经典用例实测对比
 
 | 用例 | 推荐设置 | 布局策略 | 实测结果 | 对应示例文件 |
 | :--- | :--- | :--- | :--- | :--- |
-| **真实立姿** | 1088×1920，T0，50mm | 中心全身框，离底 4% | 站立稳定自然，皮肤肌理通透，衣物垂坠感真实 | [`examples/sample_stand_hd.png`](examples/) |
-| **回眸（街景）** | 832×1248，T1，35mm | 右三分线边界框，左侧留白 | 人物精准落在右三分线，回眸转颈自然，左侧留白充分 | [`examples/t1_look_back*`](examples/) |
+| **真实立姿** | 1088×1920，T0，50mm | 中心全身框，离底 4% | 站立稳定自然，皮肤肌理通透，衣物垂坠感真实 | [`examples/sample_stand_hd.png`](examples/sample_stand_hd.png) |
+| **私房跪趴** | 1088×1920，T1，35mm | 卧榻跪趴前倾，腰背反弓 | 骨盆轻抬，反弓美背与腰臀比优越，手部与床品接触自然 | [`examples/sample_glamour_kneel.png`](examples/sample_glamour_kneel.png) |
+| **街头时尚** | 1184×1760，T1，35mm | 三分线微侧角度，街头留白 | 阳光微风动态，露肩锁骨与毛衣编织纹理细节分明 | [`examples/sample_street_chic.png`](examples/sample_street_chic.png) |
 | **腾空跳跃** | 832×1248，T3，24mm | 居中悬空边界框，底部留空 | 双脚明确离地腾空、双臂上举，动作张力定格 | [`examples/t2_jump*`](examples/) |
 | **双人分框** | 1248×832，两个独立框 | 左右独立分框，预留间隙 | 左右站位各司其职（抱臂+插兜），无肢体粘连与串色 | [`examples/t3_duo*`](examples/) |
 | **趴着看书** | 1248×832，横版长框 | 贴近中心偏下居中 | 撑肘、小腿抬起交叉，全身横向入画无截断 | [`examples/t4_reading*`](examples/) |
@@ -253,7 +255,8 @@ moss-image-pose/
 │   └── build_layout.py     # 布局换算、边界框生成与参数导出脚本
 └── examples/               # 经典实测用例
     ├── sample_stand_hd.png        # 高清全身立姿实拍样张 (1088×1920)
-    ├── t1_look_back_clean.png     # 回眸街拍裁剪效果图
+    ├── sample_glamour_kneel.png   # 私房唯美跪趴实拍样张 (1088×1920)
+    ├── sample_street_chic.png     # 街头时尚微风露肩样张 (1184×1760)
     ├── t1_look_back.*             # 回眸（单人街景）
     ├── t2_jump.*                  # 腾空跳跃（运动姿态）
     ├── t3_duo.*                   # 双人分框（左右独立站位）
@@ -262,7 +265,20 @@ moss-image-pose/
 
 ---
 
+## ⚖️ 合规守则与免责声明 (Compliance & Disclaimer)
+
+本项目是一个专注于**空间几何坐标计算**与**人体摄影构图解剖学描述**的技术工具。为确保开源项目健康合规运行，所有使用者须遵守以下条款：
+
+1. **技术研究与艺术创作定位**：本项目内置的姿势数据及参数算法旨在探索 Diffusion 模型在复杂空间布局与人体力学平衡下的控制能力，属于计算机视觉提示工程与摄影美学研究范畴。
+2. **严格的内容红线**：
+   - 严禁将本项目用于生成、传播任何真实露骨色情（Hardcore Pornography）、非自愿性行为、未经许可的肖像伪造（Deepfake）、或违反《中华人民共和国刑法》、《中华人民共和国网络安全法》、《网络信息内容生态治理规定》、《生成式人工智能服务管理暂行办法》及使用者所在司法管辖区法律法规的违法有害内容。
+   - 本项目所支持的「私房与唯美曲线（Glamour / Boudoir）」模式严格限定于**时尚摄影、人体曲线美学、私房人像写真与泳装艺术**范畴，坚决杜绝任何低俗或违规露点内容。
+3. **法律责任自负**：使用者利用本工具生成的任何提示词、布局 JSON 及最终图像均属于使用者本人的独立行为。使用者应确保其输入内容与生成结果符合当地法律法规。本项目作者及贡献者对使用者的任何违规违约使用行为不承担连带责任。
+
+---
+
 ## 📄 开源许可与致谢
 
 * 本项目核心代码、姿态数据库与设计规范基于 [Apache License 2.0](LICENSE) 开源。
 * 感谢 [OpenMOSS](https://github.com/OpenMOSS) 团队开源的高性能 MOSS-Image 文生图模型与 Echidna 实验工作台。
+
